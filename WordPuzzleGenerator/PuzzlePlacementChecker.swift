@@ -27,7 +27,7 @@ enum PuzzleBoard {
                     }
                 }
             }
-            
+            array.shuffle()
             return array
         }
         
@@ -44,11 +44,20 @@ enum PuzzleBoard {
         let row : Int
         let col : Int
         let direction : WordDirections
+        let intersects : Int
         
         init(row r : Int, col c : Int, direction d : WordDirections) {
             self.col = c
             self.row = r
             self.direction = d
+            self.intersects = 0
+        }
+        
+        init(_ input : PossibleStart, intersections intersects : Int) {
+            self.col = input.col
+            self.row = input.row
+            self.direction = input.direction
+            self.intersects = intersects
         }
     }
 }
