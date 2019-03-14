@@ -22,8 +22,30 @@ var wordList = ["EDITION",
 "EASY",
 "WHAT",
 "COMMIT","MODERN","RUIN", "RECORD", "TEMPLE", "MONK", "BOWL", "CAVE",
-"BELOW", "COMPLETE", "CONSTANT", "DERIVES", "DOUBT", "EARLY", "EVERY", "FEED", "FEELING", "ILLEGAL", "ISOLATE", "ITEM", "MODIFYING", "MONEY", "PARALLEL", "PLEASING", "REGARDED", "SEEMING", "SHARING", "TRULY", "UNLIKELY", "UPPER"
+"BELOW", "COMPLETE", "CONSTANT", "DERIVES", "DOUBT", "EARLY", "EVERY", "FEED", "FEELING", "ILLEGAL", "ISOLATE", "ITEM", "MODIFYING", "MONEY", "PARALLEL", "PLEASING", "REGARDED", "SEEMING", "SHARING", "TRULY", "UNLIKELY", "UPPER",
+"ABSOLUTELY",
+//"ACCEPTED",
+"ACCLAIMED",
+//"ACCOMPLISH",
+"ACCOMPLISHMENT",
+"ACHIEVEMENT",
+"ACTION",
+"ADMIRE",
+"ADORABLE",
+"ADVENTURE",
+//"AFFIRMATIVE",
+"AFFLUENT",
+//2345678901
+"AGREEABLE",
+"AMAZING",
+"ANGELIC",
+//"APPEALING",
+"AWESOME"
 ]
+
+enum WordError : Error {
+    case failedToWord
+}
 
 enum WordDirections : CaseIterable {
     case north, northeast,east,southeast,south,southwest,west,northwest
@@ -54,7 +76,8 @@ enum WordDirections : CaseIterable {
     }
 }
 
-var lettersGrid = Array(repeating: Array(repeating: Character("."), count: puzzleSize), count: puzzleSize)
+//var lettersGrid = Array(repeating: Array(repeating: Character("."), count: puzzleSize), count: puzzleSize)
+var lettersGrid = PuzzleBoard.Board(puzzleSize)
 var placeGenerator = PuzzleBoard.PlacementChecker(boardSize: puzzleSize)
 
 wordList.sort { (word1, word2) -> Bool in
@@ -62,11 +85,12 @@ wordList.sort { (word1, word2) -> Bool in
         word2.lengthOfBytes(using: String.Encoding.ascii)
 }
 var wordsFitted = 1
+var rejects = [String]()
 
 for word in wordList {
     var spotForWord = false
     let lengthOfWord = word.count
-    var bestPossible : PuzzleBoard.PossibleStart?
+    var bestPossible : PuzzleBoard.StartingPosition?
 
     let possibles = placeGenerator.getPossibilityArray(forWordLength: lengthOfWord)
     for possibility in possibles {
@@ -78,43 +102,43 @@ for word in wordList {
             let row = possibility.row + (possibility.direction.rowDirection() * i)
             let col = possibility.col + (possibility.direction.colDirection() * i)
             
-            if lettersGrid[row][col] == c {
+            if lettersGrid.isMatching(c, atRow: row, andCol: col){
                 intersects += 1
-            } else if lettersGrid[row][col] != "." {
+            } else if !lettersGrid.isEmpty(atRow: row, andCol: col) {
                 spotForWord = false
             }
         }
         if spotForWord && (intersects > bestPossible?.intersects ?? -1) {
-            bestPossible = PuzzleBoard.PossibleStart(possibility, intersections: intersects)
+            bestPossible = PuzzleBoard.StartingPosition(possibility, intersections: intersects)
         }
     }
     
     if let placement = bestPossible {
-        for i in 0..<lengthOfWord {
-            let row = placement.row + (placement.direction.rowDirection() * i)
-            let col = placement.col + (placement.direction.colDirection() * i)
-            lettersGrid[row][col] = word.getLetter(offset: i)
-        }
-        print("-\(wordsFitted) \(word) \(placement.direction)")
+        lettersGrid = lettersGrid.addWord(word, at: placement)
+        print("-\(wordsFitted) \(word) ") //\(placement.intersects)")
         wordsFitted += 1
-        break
+    } else {
+        rejects.append(word)
     }
 }
 
+let correctLength = lettersGrid.blanksRemaining
+var possibleBlats = rejects.filter { (sampleWord) -> Bool in
+    return sampleWord.count == correctLength
+}
+if possibleBlats.count > 0 {
+    guard let wordToBlat = possibleBlats.randomElement() else {
+        throw WordError.failedToWord
+    }
+    
+    lettersGrid = lettersGrid.blatWord(wordToBlat)
+    lettersGrid.displayGrid()
+} else {
+    print("We were left with \(correctLength) spots, and no words of that length")
+    lettersGrid.displayGrid()
+}
 
 // print grid...
-var blanksCount = 0
-for r in 0..<puzzleSize {
-    var row = ""
-    for c in 0..<puzzleSize {
-        row.append(" \(lettersGrid[r][c])")
-        if lettersGrid[r][c] == "." {
-            blanksCount+=1
-        }
-    }
-    print("\(row)")
-}
-print(blanksCount)
 /*
 if let wordsFilePath = Bundle.main.path(forResource: "web2", ofType: nil) {
     do {

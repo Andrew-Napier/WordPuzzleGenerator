@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		497F98B7221E66CA00B7F30B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497F98B6221E66CA00B7F30B /* StringExtension.swift */; };
-		497F98B9221E86B100B7F30B /* PuzzlePlacementChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497F98B8221E86B100B7F30B /* PuzzlePlacementChecker.swift */; };
+		497F98B9221E86B100B7F30B /* PuzzleBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497F98B8221E86B100B7F30B /* PuzzleBoard.swift */; };
 		497F98C1221E86D600B7F30B /* WordPuzlleGeneratorTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497F98C0221E86D600B7F30B /* WordPuzlleGeneratorTester.swift */; };
-		497F98C6221E86E300B7F30B /* PuzzlePlacementChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497F98B8221E86B100B7F30B /* PuzzlePlacementChecker.swift */; };
+		497F98C6221E86E300B7F30B /* PuzzleBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497F98B8221E86B100B7F30B /* PuzzleBoard.swift */; };
 		49F45E3B2211834100CFB544 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F45E3A2211834100CFB544 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +28,7 @@
 
 /* Begin PBXFileReference section */
 		497F98B6221E66CA00B7F30B /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
-		497F98B8221E86B100B7F30B /* PuzzlePlacementChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzlePlacementChecker.swift; sourceTree = "<group>"; };
+		497F98B8221E86B100B7F30B /* PuzzleBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleBoard.swift; sourceTree = "<group>"; };
 		497F98BE221E86D600B7F30B /* WordPuzlleGeneratorTester.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordPuzlleGeneratorTester.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		497F98C0221E86D600B7F30B /* WordPuzlleGeneratorTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPuzlleGeneratorTester.swift; sourceTree = "<group>"; };
 		497F98C2221E86D600B7F30B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -86,7 +86,7 @@
 			children = (
 				49F45E3A2211834100CFB544 /* main.swift */,
 				497F98B6221E66CA00B7F30B /* StringExtension.swift */,
-				497F98B8221E86B100B7F30B /* PuzzlePlacementChecker.swift */,
+				497F98B8221E86B100B7F30B /* PuzzleBoard.swift */,
 			);
 			path = WordPuzzleGenerator;
 			sourceTree = "<group>";
@@ -180,7 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				497F98C1221E86D600B7F30B /* WordPuzlleGeneratorTester.swift in Sources */,
-				497F98C6221E86E300B7F30B /* PuzzlePlacementChecker.swift in Sources */,
+				497F98C6221E86E300B7F30B /* PuzzleBoard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,7 +190,7 @@
 			files = (
 				49F45E3B2211834100CFB544 /* main.swift in Sources */,
 				497F98B7221E66CA00B7F30B /* StringExtension.swift in Sources */,
-				497F98B9221E86B100B7F30B /* PuzzlePlacementChecker.swift in Sources */,
+				497F98B9221E86B100B7F30B /* PuzzleBoard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
