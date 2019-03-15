@@ -10,38 +10,6 @@ import Foundation
 
 print("Hello, World!")
 let puzzleSize = 11
-var wordList = ["EDITION",
-                "DESIGN",
-                "DIRECTION",
-                "MAGAZINE",
-                "COMPANION",
-                "GROUPS",
-                "MEMBERS",
-                "PRECISE",
-"DRUMMER", "PAINTING",
-"EASY",
-"WHAT",
-"COMMIT","MODERN","RUIN", "RECORD", "TEMPLE", "MONK", "BOWL", "CAVE",
-"BELOW", "COMPLETE", "CONSTANT", "DERIVES", "DOUBT", "EARLY", "EVERY", "FEED", "FEELING", "ILLEGAL", "ISOLATE", "ITEM", "MODIFYING", "MONEY", "PARALLEL", "PLEASING", "REGARDED", "SEEMING", "SHARING", "TRULY", "UNLIKELY", "UPPER",
-"ABSOLUTELY",
-//"ACCEPTED",
-"ACCLAIMED",
-//"ACCOMPLISH",
-"ACCOMPLISHMENT",
-"ACHIEVEMENT",
-"ACTION",
-"ADMIRE",
-"ADORABLE",
-"ADVENTURE",
-//"AFFIRMATIVE",
-"AFFLUENT",
-//2345678901
-"AGREEABLE",
-"AMAZING",
-"ANGELIC",
-//"APPEALING",
-"AWESOME"
-]
 
 enum WordError : Error {
     case failedToWord
@@ -76,18 +44,14 @@ enum WordDirections : CaseIterable {
     }
 }
 
-//var lettersGrid = Array(repeating: Array(repeating: Character("."), count: puzzleSize), count: puzzleSize)
 var lettersGrid = PuzzleBoard.Board(puzzleSize)
 var placeGenerator = PuzzleBoard.PlacementChecker(boardSize: puzzleSize)
+var wordGenerator = WordGenerator()
 
-wordList.sort { (word1, word2) -> Bool in
-    return word1.lengthOfBytes(using: .ascii) >
-        word2.lengthOfBytes(using: String.Encoding.ascii)
-}
 var wordsFitted = 1
 var rejects = [String]()
 
-for word in wordList {
+for word in wordGenerator.getWordsInDescendingLength() {
     var spotForWord = false
     let lengthOfWord = word.count
     var bestPossible : PuzzleBoard.StartingPosition?
