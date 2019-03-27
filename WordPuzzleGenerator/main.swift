@@ -47,11 +47,12 @@ enum WordDirections : CaseIterable {
 var lettersGrid = PuzzleBoard.Board(puzzleSize)
 var placeGenerator = PuzzleBoard.PlacementChecker(boardSize: puzzleSize)
 var wordGenerator = WordGenerator()
+var directionCounts = Dictionary<WordDirections, Int>()
 
 var wordsFitted = 1
 var rejects = [String]()
 
-for word in wordGenerator.getWordsInDescendingLength() {
+for word in wordGenerator.getWordsInMixedLength() {
     var spotForWord = false
     let lengthOfWord = word.count
     var bestPossible : PuzzleBoard.StartingPosition?
@@ -72,12 +73,20 @@ for word in wordGenerator.getWordsInDescendingLength() {
                 spotForWord = false
             }
         }
-        if spotForWord && (intersects > bestPossible?.intersects ?? -1) {
-            bestPossible = PuzzleBoard.StartingPosition(possibility, intersections: intersects)
+        if spotForWord {
+            //&& (intersects > bestPossible?.intersects ?? -1) {
+            let placement = PuzzleBoard.StartingPosition(possibility,
+                                                         intersections: intersects)
+            let pc = PuzzleBoard.PlacementChooser(counts: directionCounts)
+
+            bestPossible = pc.chooseBestPlacementOption(placement, bestPossible)
         }
     }
     
     if let placement = bestPossible {
+        directionCounts[placement.direction] =
+            (directionCounts[placement.direction] ?? 0) + 1
+        
         lettersGrid = lettersGrid.addWord(word, at: placement)
         print("-\(wordsFitted) \(word) ") //\(placement.intersects)")
         wordsFitted += 1
@@ -101,6 +110,8 @@ if possibleBlats.count > 0 {
     print("We were left with \(correctLength) spots, and no words of that length")
     lettersGrid.displayGrid()
 }
+let pc  = PuzzleBoard.PlacementChooser(counts: directionCounts)
+pc.display()
 
 // print grid...
 /*

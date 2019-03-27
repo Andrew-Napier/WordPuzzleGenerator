@@ -49,4 +49,29 @@ struct WordGenerator {
         }
         return listCopy
     }
+
+    func getWordsInAscendingLength() -> [String] {
+        var listCopy = self.words
+        listCopy.sort { (word1, word2) -> Bool in
+            return word1.count < word2.count
+        }
+        return listCopy
+    }
+    
+    func getWordsInMixedLength() -> [String] {
+        var ascOrder = getWordsInAscendingLength()
+        var dscOrder = getWordsInDescendingLength()
+        
+        var done = false
+        var words = [String]()
+        var index = 0
+        while !done {
+            done = (index >= ascOrder.count/2)
+            words.append(dscOrder[index])
+            words.append(ascOrder[index])
+            index += 1
+        }
+        
+        return words
+    }
 }

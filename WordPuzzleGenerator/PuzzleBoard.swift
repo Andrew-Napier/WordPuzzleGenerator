@@ -61,6 +61,44 @@ enum PuzzleBoard {
         }
     }
     
+    struct PlacementChooser {
+        var directionScores : Dictionary<WordDirections, Int>
+        
+        init(counts c : Dictionary<WordDirections,Int>) {
+            directionScores = c
+        }
+        
+        func chooseBestPlacementOption(_ opt1 : StartingPosition,
+                                       _ opt2: StartingPosition?) -> StartingPosition {
+            guard let safe2 = opt2 else {
+                return opt1
+            }
+            
+            if opt1.intersects == safe2.intersects {
+                if directionScores[opt1.direction] ?? 0
+                    <= directionScores[safe2.direction] ?? 0 {
+                    return opt1
+                } else {
+                    return safe2
+                }
+            } else {
+                if opt1.intersects <= safe2.intersects {
+                    return opt1
+                } else {
+                    return safe2
+                }
+            }
+        }
+        
+        func display() {
+            var output = ""
+            for direction in directionScores {
+                output = output + "\(direction.key):\(direction.value), "
+            }
+            print(output)
+        }        
+    }
+    
     struct Board {
         let lettersGrid : Array<Array<Character>>
         
